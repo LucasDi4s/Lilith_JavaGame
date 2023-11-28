@@ -1,17 +1,49 @@
 package utilz;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import javax.imageio.ImageIO;
 
+/**
+ * Uma classe utilitária para carregar e salvar imagens no jogo.
+ */
 public class LoadSave {
-public static final String PLAYER_LILITH = "Lilith_player.png";
-public static final String LEVEL_LILITH = "player.png";
 
-    public static BufferedImage GetSpriteLilith(String filename) {
+    // Constantes representando nomes de arquivos para várias imagens
+    public static final String PLAYER_LILITH = "Lilith_player.png";
+    public static final String LEVEL_ATLAS = "outside_sprites.png";
+    public static final String MENU_BUTTONS = "button_atlas.png";
+    public static final String MENU_BACKGROUND = "menu_background.png";
+    public static final String PAUSE_BACKGROUND = "pause_menu.png";
+    public static final String SOUND_BUTTONS = "sound_button.png";
+    public static final String URM_BUTTONS = "urm_buttons.png";
+    public static final String VOLUME_BUTTONS = "volume_buttons.png";
+    public static final String MENU_BACKGROUND_IMG = "background_menu.png";
+    public static final String PLAYING_BG_IMG = "playing_bg_img.png";
+    public static final String BIG_CLOUDS = "big_clouds.png";
+    public static final String SMALL_CLOUDS = "small_clouds.png";
+    public static final String CRABBY_SPRITE = "crabby_sprite.png";
+    public static final String STATUS_BAR = "health_power_bar.png";
+    public static final String COMPLETED_IMG = "completed_sprite.png";
+
+    public static final String POTION_ATLAS = "potions_sprites.png";
+    public static final String CONTAINER_ATLAS = "objects_sprites.png";
+    public static final String TRAP_ATLAS = "trap_atlas.png";
+
+    /**
+     * Carrega um atlas de sprites (imagem) da pasta de recursos.
+     *
+     * @param fileName O nome do arquivo a ser carregado.
+     * @return O BufferedImage carregado.
+     */
+    public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;
-        InputStream is = LoadSave.class.getResourceAsStream("/"+ filename); // Carrega a imagem sprite sheet
+        InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
         try {
             img = ImageIO.read(is);
 
@@ -26,4 +58,46 @@ public static final String LEVEL_LILITH = "player.png";
         }
         return img;
     }
+
+    /**
+     * Recupera todas as imagens de níveis da pasta "lvls" nos recursos.
+     *
+     * @return Uma matriz de BufferedImages representando todos os níveis.
+     */
+    public static BufferedImage[] GetAllLevels() {
+        URL url = LoadSave.class.getResource("/lvls");
+        File file = null;
+
+        try {
+            file = new File(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        File[] files = file.listFiles();
+        File[] filesSorted = new File[files.length];
+
+        // Ordenando arquivos com base em seus nomes (supondo que sejam nomeados como "1.png", "2.png", etc.)
+        for (int i = 0; i < filesSorted.length; i++) {
+            for (int j = 0; j < files.length; j++) {
+                if (files[j].getName().equals((i + 1) + ".png")) {
+                    filesSorted[i] = files[j];
+                }
+
+            }
+        }
+
+        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
+
+        // Lendo imagens dos arquivos ordenados
+        for (int i = 0; i < imgs.length; i++)
+			try {
+            imgs[i] = ImageIO.read(filesSorted[i]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return imgs;
+    }
+
 }

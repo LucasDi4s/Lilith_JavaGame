@@ -13,7 +13,7 @@ public class CADASTRO extends javax.swing.JFrame {
      */
     public CADASTRO() {
         initComponents();
-         setSize(599, 535);
+        setSize(599, 535);
 
         // Centraliza a janela na tela
         setLocationRelativeTo(null);
@@ -61,10 +61,9 @@ public class CADASTRO extends javax.swing.JFrame {
         CadSenha.setBounds(190, 290, 204, 22);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/LILITH_cadastro.png"))); // NOI18N
-        jLabel4.setText("jLabel4");
         jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(0, -20, 960, 570);
+        jLabel4.setBounds(0, -10, 580, 520);
 
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setBorder(null);
@@ -74,7 +73,7 @@ public class CADASTRO extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(20, 493, 120, 30);
+        jButton2.setBounds(20, 483, 120, 50);
 
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setBorder(null);
@@ -85,61 +84,57 @@ public class CADASTRO extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(394, 480, 180, 40);
+        jButton1.setBounds(394, 460, 180, 70);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void CadUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadUsuarioActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_CadUsuarioActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jButton1.setBackground(new java.awt.Color(0,0,0,1));
+        // Define a cor de fundo do jButton1 como preto com transparência
+        jButton1.setBackground(new java.awt.Color(0, 0, 0, 1));
+
+        // Cria uma instância da classe conectaMongo para interagir com o MongoDB
         conectaMongo conn = new conectaMongo();
+
+        // Obtém o nome de usuário e senha dos campos de texto CadUsuario e CadSenha
         String Usuario = CadUsuario.getText();
         int Senha = Integer.parseInt(CadSenha.getText());
-        
-        conn.insertValues(Usuario, Senha);
+
+        // Define um valor padrão para o score (pode ser ajustado conforme necessário)
+        int scorePadrao = 0;
+
+        // Insere os valores do usuário no banco de dados, incluindo o nome de usuário, senha e score padrão
+        conn.insertValues(Usuario, Senha, scorePadrao);
+
+        // Recupera e exibe os valores do banco de dados (se necessário)
         conn.getValues();
+
+        // Cria uma instância da classe mainClass e torna-a visível
         new mainClass().setVisible(true);
+
+        // Fecha a janela atual (dispose)
         dispose();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jButton2.setBackground(new java.awt.Color(0,0,0,1));
-        new mainClass().setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-                                       
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CADASTRO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CADASTRO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CADASTRO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CADASTRO.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+        // Define a cor de fundo do jButton2 como preto com transparência
+        jButton2.setBackground(new java.awt.Color(0, 0, 0, 1));
 
-        /* Create and display the form */
+        // Cria uma nova instância da classe mainClass e a torna visível
+        new mainClass().setVisible(true);
+
+        // Fecha a janela atual (dispose)
+        dispose();
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public static void main(String args[]) {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new CADASTRO().setVisible(true);

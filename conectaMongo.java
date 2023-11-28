@@ -20,21 +20,21 @@ public class conectaMongo {
         System.out.println("getValues() - ok - finalizou");
     }
 
-    public void insertValues(String usuario, int Senha) {
+    public void insertValues(String usuario, int senha, int score) {
         System.out.println("Método insertValues()");
-        //conexão mongo
         MongoClient mongo = new MongoClient("localhost", 27017);
         MongoDatabase db = mongo.getDatabase("jogo");
         MongoCollection<Document> docs = db.getCollection("jogo");
-        Entrada user = createUser(usuario, Senha);
-//cria um user obj da classe conectar, 
-//chamando o método createUser() - logo abaixo
+        Entrada user = createUser(usuario, senha, score);
         Document doc = createDocument(user);
-//cria um doc que referencia o conteúdo de user do createDocument()
-//obs, o Banco só entende objetos do tipo Document, 
-        docs.insertOne(doc);//insere no mongo o conteúdo de doc
+        docs.insertOne(doc);
         getValues();
         System.out.println("insertValues ok");
+    }
+
+    public Entrada createUser(String usuario, int senha, int score) {
+        Entrada u = new Entrada(usuario, senha, score);
+        return u;
     }
 
     public boolean findValuesUsuarioeSenha(String usuario, int senha) {
@@ -66,54 +66,40 @@ public class conectaMongo {
         }
         return t;
     }
-    public Entrada createUser(String usuario, int senha) {
-        //esse método deve ser uma entrada 
-        //externa (interface, scanner ou JOptionPanel
-        Entrada u = new Entrada();
-        u.setUsuario(usuario);
-        u.setSenha(senha);
-        return u;
-    }
 
-    public Document createDocument(Entrada user) {
-        Document docBuilder = new Document();
-        docBuilder.append("_usuario", user.getUsuario());
-        docBuilder.append("nome", user.getSenha());
-
-        return docBuilder;
-    }
-
-    public void updateValues() {
-
-        System.out.println("updateValues");
-        //Entrada user = createUser();
+    public void updateScore(String usuario, int novoScore) {
+        System.out.println("Método updateScore()");
         MongoClient mongo = new MongoClient("localhost", 27017);
-
         MongoDatabase db = mongo.getDatabase("jogo");
         MongoCollection<Document> docs = db.getCollection("jogo");
 
-        docs.updateOne(Filters.eq("nome", "Crishna"), Updates.set("cidadenasc", "Santa Maria - RS"));
-        System.out.println("Documento teve sucesso no update...");
-        for (Document doc : docs.find()) {
-            System.out.println("item update: " + doc);
-        }
+        // Atualiza o score do usuário
+        docs.updateOne(Filters.eq("usuario", usuario), Updates.set("score", novoScore));
 
+        System.out.println("Score atualizado com sucesso!");
+        getValues();
     }
 
-    public void deleteValues() {
-        System.out.println("deleteValues");
-        //Entrada user = createUser();
+
+    public Document createDocument(Entrada user) {
+        Document docBuilder = new Document();
+        docBuilder.append("usuario", user.getUsuario());
+        docBuilder.append("senha", user.getSenha());
+        docBuilder.append("score", user.getScore());  // Adicionei o campo score
+        return docBuilder;
+    }
+
+    public int getScore(String usuario) {
         MongoClient mongo = new MongoClient("localhost", 27017);
+        MongoDatabase db = mongo.getDatabase("jogo");
+        MongoCollection<Document> docs = db.getCollection("jogo");
 
-        MongoDatabase db = mongo.getDatabase("turmaB");
-        MongoCollection<Document> docs = db.getCollection("turmaB");
-
-        docs.deleteOne(Filters.eq("nome", "Maria"));
-        System.out.println("Documento teve sucesso no delete...");
-        for (Document doc : docs.find()) {
-            System.out.println("item update: " + doc);
+        Document userDocument = docs.find(Filters.eq("usuario", usuario)).first();
+        if (userDocument != null) {
+            return userDocument.getInteger("score", -1);
+        } else {
+            return -1; // Retorna -1 se o usuário não for encontrado
         }
-
     }
 
 }
