@@ -17,4 +17,6 @@ O obejtivo do projeto foi colocar em prática todo o conhecimento adquirido nas 
 
  <br>
 
-![LILITH_cARREGAMENTO](https://github.com/LucasDi4s/Lilith_game/assets/124370470/d19b0f08-2644-4dfe-b032-75be06c5bbf1)
+ # Painel do jogo
+
+![LILITH_cARREGAMENTO](https://github.com/LucasDi4s/Lilith_JavaGame/blob/main/imgGAME.PNG)
